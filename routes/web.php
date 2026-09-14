@@ -5,7 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Listing;
 
 Route::get("/", function () {
-    return view("welcome");
+    // $listings = Listing::all();
+    // dd($listings);
+    $listings = Listing::all();
+    return view("listings.index", compact("listings"));
 });
 
 Route::get("/dashboard", function () {

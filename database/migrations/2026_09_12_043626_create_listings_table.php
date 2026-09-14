@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->decimal("price", 8, 2);
             $table->string("category");
             $table->string("condition");
-            $table->integer("seller_phone");
+            $table->string("seller_phone");
             $table->string("image")->nullable();
             $table->timestamps();
         });
