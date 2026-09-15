@@ -13,6 +13,8 @@ class ListingController extends Controller
     public function index()
     {
         //
+        $listings = Listing::all();
+        return view("listings.index", compact("listings"));
     }
 
     /**
@@ -21,6 +23,7 @@ class ListingController extends Controller
     public function create()
     {
         //
+        return view("listings.create");
     }
 
     /**
@@ -28,7 +31,17 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //stores the given data from the request into the db via the controller
+        Listing::create([
+            "title" => $request->title,
+            "description" => $request->description,
+            "price" => $request->price,
+            "category" => $request->category,
+            "condition" => $request->condition,
+            "seller_phone" => $request->seller_phone,
+            "image" => $request->image,
+        ]);
+        return redirect("/listings");
     }
 
     /**
@@ -37,6 +50,7 @@ class ListingController extends Controller
     public function show(Listing $listing)
     {
         //
+        return view("listings.show", compact("listing"));
     }
 
     /**
@@ -45,6 +59,7 @@ class ListingController extends Controller
     public function edit(Listing $listing)
     {
         //
+        return view("listings.edit", compact("listing"));
     }
 
     /**
@@ -53,6 +68,11 @@ class ListingController extends Controller
     public function update(Request $request, Listing $listing)
     {
         //
+        $listing->update([
+            "title" => $request->title,
+            "description" => $request->description,
+            "price" => $request->price,
+        ]);
     }
 
     /**

@@ -1,7 +1,5 @@
-@extends('layouts.navigation')
-
-@section('content')
-<div class="container">
+<x-app-layout>
+<div class="container, bg-gray text-black mx-auto">
     <div class="row">
         <div class="col-md-12">
             <h1>Listings</h1>
@@ -34,4 +32,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-app-layout>
