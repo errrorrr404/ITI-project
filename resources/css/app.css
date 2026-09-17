@@ -1,4 +1,6 @@
 @import "tailwindcss";
 @source "../**/*.blade.php";
 
-@plugin "daisyui";
+@plugin "daisyui"{
+    themes: dark --default, light --preferslight, halloween
+};

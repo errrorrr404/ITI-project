@@ -31,7 +31,16 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        //stores the given data from the request into the db via the controller
+        //validates the requests before handing it to the create()
+        $request->validate([
+            "title" => "required",
+            "description" => ["required", "min:10"],
+            "price" => "required",
+            "category" => "required",
+            "condition" => "required",
+            "seller_phone" => "required",
+        ]);
+        //stores the given data from the request into the db via the model
         Listing::create([
             "title" => $request->title,
             "description" => $request->description,
@@ -73,6 +82,7 @@ class ListingController extends Controller
             "description" => $request->description,
             "price" => $request->price,
         ]);
+        return redirect("listings/{listing}");
     }
 
     /**
@@ -81,5 +91,7 @@ class ListingController extends Controller
     public function destroy(Listing $listing)
     {
         //
+        $listing->delete();
+        return redirect("/listings");
     }
 }

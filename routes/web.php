@@ -8,17 +8,23 @@ use App\Http\Controllers\ListingController;
 //show the index page
 Route::get("/listings", [ListingController::class, "index"]);
 
+//shows the create page
+Route::get("/listings/create", [ListingController::class, "create"]);
+
 //store the new item
 Route::post("/listings", [ListingController::class, "store"]);
+
+//shows the edit page
+Route::get("/listings/{listing}/edit", [ListingController::class, "edit"]);
 
 //show indivvidual items
 Route::get("/listings/{listing}", [ListingController::class, "show"]);
 
-//shows the create page
-Route::get("/listings/create", [ListingController::class, "create"]);
+// updates an item
+Route::patch("/listings/{listing}", [ListingController::class, "update"]);
 
-//shows the edit page
-Route::get("/listings/{listing}/edit", [ListingController::class, "edit"]);
+// deletes an item
+Route::delete("/listings/{listing}", [ListingController::class, "destroy"]);
 
 //shows the dashboard
 Route::get("/dashboard", function () {

@@ -16,7 +16,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($listings as $listing)
                     <tr>
                         <td>{{ $listing->title }}</td>
                         <td>{{ $listing->description }}</td>
@@ -26,7 +25,7 @@
                         <td>{{ $listing->seller_phone }}</td>
                         <td>{{ $listing->image }}</td>
                         <td>
-                            <a href="/listings/{{ $listing->id }}/edit" class="btn btn-primary px-3 py-2">Edit</a>
+                            <a href="/listings/{{ $listing->id }}/edit" class="btn btn-primary">Edit</a>
                             <form action="/listings/{{ $listing->id }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
@@ -34,7 +33,6 @@
                             </form>
                         </td>
                     </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
