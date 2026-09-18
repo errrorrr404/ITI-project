@@ -28,7 +28,8 @@ Route::delete("/listings/{listing}", [ListingController::class, "destroy"]);
 
 //shows the dashboard
 Route::get("/dashboard", function () {
-    return view("dashboard");
+    $listings = Listing::all();
+    return view("dashboard", ["listings" => $listings]);
 })
     ->middleware(["auth", "verified"])
     ->name("dashboard");

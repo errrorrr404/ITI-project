@@ -14,4 +14,38 @@
             </div>
         </div>
     </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Condition</th>
+                <th>Seller Phone</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($listings as $listing)
+            <tr>
+                <td>{{ $listing->title }}</td>
+                <td>{{ $listing->description }}</td>
+                <td>{{ $listing->price }}</td>
+                <td>{{ $listing->category }}</td>
+                <td>{{ $listing->condition }}</td>
+                <td>{{ $listing->seller_phone }}</td>
+                <td>{{ $listing->image }}</td>
+                <td>
+                    <a href="/listings/{{ $listing->id }}/edit" class="btn btn-primary px-3 py-2">Edit</a>
+                    <form action="/listings/{{ $listing->id }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </x-app-layout>

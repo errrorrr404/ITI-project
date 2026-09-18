@@ -2,5 +2,5 @@
 @source "../**/*.blade.php";
 
 @plugin "daisyui"{
-    themes: dark --default, light --preferslight, halloween
+    themes: all;
 };

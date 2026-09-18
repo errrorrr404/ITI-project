@@ -1,42 +1,33 @@
 <x-app-layout>
-<div class="container, bg-gray text-black mx-auto">
+<div class="container text-black mx-auto">
     <div class="row">
         <div class="col-md-12">
-            <h1>Listings</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Condition</th>
-                        <th>Seller Phone</th>
-                        <th>Image</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($listings as $listing)
-                    <tr>
-                        <td>{{ $listing->title }}</td>
-                        <td>{{ $listing->description }}</td>
-                        <td>{{ $listing->price }}</td>
-                        <td>{{ $listing->category }}</td>
-                        <td>{{ $listing->condition }}</td>
-                        <td>{{ $listing->seller_phone }}</td>
-                        <td>{{ $listing->image }}</td>
-                        <td>
-                            <a href="/listings/{{ $listing->id }}/edit" class="btn btn-primary px-3 py-2">Edit</a>
-                            <form action="/listings/{{ $listing->id }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <h1 class="text-3xl text-center">Listings</h1>
+            <ul class="mt-6 flex flex-col gap-x-6 gap-y-4 mx-auto">
+            @foreach ($listings as $listing)
+            <li>
+            <a href="/listings/{{ $listing->id }}" class="card card-border bg-base-100 w-96 shadow-sm">
+              <figure>
+                <img
+                    class="p-4"
+                    src="{{ $listing->image }}"
+                    alt="{{ $listing->title }}"
+                />
+              </figure>
+              <div class="card-body">
+                <h2 class="card-title">
+                  {{ $listing->title }}
+                  <!--<div class="badge badge-secondary">NEW</div>-->
+                </h2>
+                <p>{{ $listing->description }}</p>
+                <div class="card-actions justify-end mt-2">
+                  <div class="badge badge-outline">{{ $listing->category }}</div>
+                </div>
+              </div>
+            </a>
+            </li>
+            @endforeach
+            </ul>
         </div>
     </div>
 </div>
