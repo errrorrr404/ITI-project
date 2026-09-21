@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ListingController extends Controller
 {
@@ -13,7 +14,7 @@ class ListingController extends Controller
     public function index()
     {
         //
-        $listings = Listing::all();
+        $listings = Listing::with("user")->latest()->get();
         return view("listings.index", compact("listings"));
     }
 
@@ -31,25 +32,23 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        //validates the requests before handing it to the create()
-        $request->validate([
+        //validates the requests and stores it before handing it to the create()
+        $validated = $request->validate([
             "title" => "required",
             "description" => ["required", "min:10"],
-            "price" => "required",
+            "price" => "required|numeric",
             "category" => "required",
             "condition" => "required",
             "seller_phone" => "required",
+            "image" => "nullable|image|max:2048",
         ]);
-        //stores the given data from the request into the db via the model
-        Listing::create([
-            "title" => $request->title,
-            "description" => $request->description,
-            "price" => $request->price,
-            "category" => $request->category,
-            "condition" => $request->condition,
-            "seller_phone" => $request->seller_phone,
-            "image" => $request->image,
-        ]);
+        if ($request->hasFile("image")) {
+            $validated["image"] = $request
+                ->file("image")
+                ->store("listings", "public");
+        }
+        $request->user()->listings()->create($validated);
+
         return redirect("/listings");
     }
 
@@ -68,6 +67,8 @@ class ListingController extends Controller
     public function edit(Listing $listing)
     {
         //
+        $this->authorize("update", $listing);
+
         return view("listings.edit", compact("listing"));
     }
 
@@ -77,12 +78,14 @@ class ListingController extends Controller
     public function update(Request $request, Listing $listing)
     {
         //
+        $this->authorize("update", $listing);
+
         $listing->update([
             "title" => $request->title,
             "description" => $request->description,
             "price" => $request->price,
         ]);
-        return redirect("listings/{listing}");
+        return redirect("listings/{$listing->id}");
     }
 
     /**
@@ -91,6 +94,11 @@ class ListingController extends Controller
     public function destroy(Listing $listing)
     {
         //
+        $this->authorize("delete", $listing);
+        if ($listing->image) {
+            Storage::disk("public")->delete($listing->image);
+        }
+
         $listing->delete();
         return redirect("/listings");
     }

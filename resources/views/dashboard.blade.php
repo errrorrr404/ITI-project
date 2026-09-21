@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+                    {{ __("You're logged in! Welcome, ") }} {{ Auth::user()->name }}
                 </div>
             </div>
         </div>
@@ -46,6 +46,9 @@
                 </td>
             </tr>
             @endforeach
+            <tr>
+                <td colspan="7"><button class="btn btn-primary"><a href="/listings/create">Create an item</a></button></td>
+            </tr>
         </tbody>
     </table>
 </x-app-layout>
